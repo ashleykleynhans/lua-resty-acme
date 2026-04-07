@@ -9,7 +9,6 @@ on:
     - master
     - release/*
     - test-please/*
-    - use-atomic-set
   pull_request:
     paths-ignore:
     # ignore top-level markdown files (CHANGELOG.md, README.md, etc.)
@@ -25,41 +24,36 @@ concurrency:
 jobs:
   tests:
     name: Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
         include:
-        - nginx: "1.25.3"
-          openssl: "1.1.1w"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
-        - nginx: "1.25.3"
+        - nginx: "1.28.3"
           openssl: "3.0.15"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
-        - nginx: "1.25.3"
-          openssl: "3.1.7"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
-        - nginx: "1.25.3"
+          lua_nginx_module: "v0.10.29"
+          stream_lua_nginx_module: "v0.0.17"
+          lua_resty_core: "v0.1.32"
+        - nginx: "1.28.3"
           openssl: "3.2.3"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
-        - nginx: "1.25.3"
-          openssl: "3.3.2"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
-        - nginx: "1.25.3"
+          lua_nginx_module: "v0.10.29"
+          stream_lua_nginx_module: "v0.0.17"
+          lua_resty_core: "v0.1.32"
+        - nginx: "1.28.3"
           openssl: "3.4.0"
-          lua_nginx_module: "v0.10.26"
-          stream_lua_nginx_module: "v0.0.14"
-          lua_resty_core: "v0.1.28"
+          lua_nginx_module: "v0.10.29"
+          stream_lua_nginx_module: "v0.0.17"
+          lua_resty_core: "v0.1.32"
+        - nginx: "1.28.3"
+          openssl: "3.5.5"
+          lua_nginx_module: "v0.10.29"
+          stream_lua_nginx_module: "v0.0.17"
+          lua_resty_core: "v0.1.32"
+        - nginx: "1.28.3"
+          openssl: "3.6.1"
+          lua_nginx_module: "v0.10.29"
+          stream_lua_nginx_module: "v0.0.17"
+          lua_resty_core: "v0.1.32"
 
     env:
       JOBS: 3
@@ -110,7 +104,7 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup cache
       uses: actions/cache@v4
