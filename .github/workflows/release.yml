@@ -1,0 +1,186 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  package-deb:
+    name: Package .deb (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+          - arch: arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build .deb package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          PKG_DIR="lua-resty-acme_${VERSION}_${{ matrix.arch }}"
+          LUA_LIB="${PKG_DIR}/usr/local/openresty/site/lualib"
+
+          mkdir -p "${PKG_DIR}/DEBIAN"
+          mkdir -p "${LUA_LIB}"
+          mkdir -p "${PKG_DIR}/usr/share/doc/lua-resty-acme"
+
+          cp -r lib/resty "${LUA_LIB}/"
+          cp LICENSE "${PKG_DIR}/usr/share/doc/lua-resty-acme/copyright"
+
+          cat > "${PKG_DIR}/DEBIAN/control" <<EOF
+          Package: lua-resty-acme
+          Version: ${VERSION}
+          Section: libs
+          Priority: optional
+          Architecture: ${{ matrix.arch }}
+          Depends: openresty
+          Maintainer: Ashley Kleynhans
+          Homepage: https://github.com/ashleykleynhans/lua-resty-acme
+          Description: Automatic Let's Encrypt certificate serving for OpenResty
+           Automatic Let's Encrypt certificate serving (RSA + ECC) and pure Lua
+           implementation of the ACMEv2 protocol. Supports http-01, tls-alpn-01,
+           and dns-01 challenges with multiple storage backends.
+          EOF
+
+          sed -i 's/^          //' "${PKG_DIR}/DEBIAN/control"
+          dpkg-deb --build --root-owner-group "${PKG_DIR}"
+
+          DEB_FILE="${PKG_DIR}.deb"
+          echo "DEB_FILE=${DEB_FILE}" >> $GITHUB_ENV
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-resty-acme-deb-${{ matrix.arch }}
+          path: ${{ env.DEB_FILE }}
+
+  package-rpm:
+    name: Package .rpm (${{ matrix.rpm_arch }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - rpm_arch: x86_64
+          - rpm_arch: aarch64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install rpm tools
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Build .rpm package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          WORKSPACE=$(pwd)
+
+          mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+          tar czf rpmbuild/SOURCES/lua-resty-acme-${VERSION}.tar.gz lib/ LICENSE
+
+          cat > rpmbuild/SPECS/lua-resty-acme.spec <<'SPECEOF'
+          Name:    lua-resty-acme
+          Version: %{_version}
+          Release: 1
+          Summary: Automatic Let's Encrypt certificate serving for OpenResty
+          License: BSD-3-Clause
+          URL:     https://github.com/ashleykleynhans/lua-resty-acme
+          Source0: lua-resty-acme-%{_version}.tar.gz
+          BuildArch: noarch
+          Requires: openresty
+
+          %description
+          Automatic Let's Encrypt certificate serving (RSA + ECC) and pure Lua
+          implementation of the ACMEv2 protocol. Supports http-01, tls-alpn-01,
+          and dns-01 challenges with multiple storage backends.
+
+          %prep
+          %setup -c -T
+          tar xzf %{SOURCE0}
+
+          %install
+          mkdir -p %{buildroot}/usr/local/openresty/site/lualib
+          cp -r lib/resty %{buildroot}/usr/local/openresty/site/lualib/
+          mkdir -p %{buildroot}/usr/share/doc/lua-resty-acme
+          cp LICENSE %{buildroot}/usr/share/doc/lua-resty-acme/
+
+          %files
+          /usr/local/openresty/site/lualib/resty/acme/
+          /usr/share/doc/lua-resty-acme/LICENSE
+          SPECEOF
+
+          sed -i 's/^          //' rpmbuild/SPECS/lua-resty-acme.spec
+
+          rpmbuild --define "_topdir ${WORKSPACE}/rpmbuild" \
+            --define "_version ${VERSION}" \
+            --target ${{ matrix.rpm_arch }} \
+            -bb rpmbuild/SPECS/lua-resty-acme.spec
+
+          RPM_FILE=$(find rpmbuild/RPMS -name "*.rpm" | head -1)
+          cp "${RPM_FILE}" .
+          RPM_NAME=$(basename "${RPM_FILE}")
+          echo "RPM_FILE=${RPM_NAME}" >> $GITHUB_ENV
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-resty-acme-rpm-${{ matrix.rpm_arch }}
+          path: ${{ env.RPM_FILE }}
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [package-deb, package-rpm]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create source tarball
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          tar czf "lua-resty-acme-${VERSION}.tar.gz" \
+            --transform "s,^,lua-resty-acme-${VERSION}/," \
+            lib/ LICENSE README.md dist.ini
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: false
+
+      - name: Collect release assets
+        run: |
+          mkdir -p release
+          cp lua-resty-acme-*.tar.gz release/
+          find artifacts -type f \( -name "*.deb" -o -name "*.rpm" \) \
+            -exec cp {} release/ \;
+          ls -la release/
+
+      - name: Generate checksums
+        working-directory: release
+        run: |
+          sha256sum * > checksums-sha256.txt
+          cat checksums-sha256.txt
+
+      - name: Extract tag message
+        run: |
+          git fetch --tags --force
+          TAG_MSG=$(git tag -l --format='%(contents)' ${GITHUB_REF_NAME})
+          echo "TAG_MSG<<TAGEOF" >> $GITHUB_ENV
+          echo "${TAG_MSG}" >> $GITHUB_ENV
+          echo "TAGEOF" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ env.TAG_MSG }}
+          files: |
+            release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
