@@ -9,6 +9,11 @@ RUN apt-get update && apt-get install -y cpanminus redis-server git && \
         -subj '/CN=localhost' \
         -keyout /tmp/default.key \
         -out /tmp/default.pem && \
+    openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 \
+        -days 3650 -nodes -x509 \
+        -subj '/CN=localhost' \
+        -keyout /tmp/default-ecc.key \
+        -out /tmp/default-ecc.pem && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 WORKDIR /work
 CMD ["bash", "-c", "redis-server --daemonize yes && prove -r t/"]
