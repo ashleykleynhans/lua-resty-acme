@@ -821,23 +821,31 @@ TODO
 Testing
 ====
 
-### Using Docker (recommended)
+### Full test suite with Docker Compose (recommended)
 
-Build the test image once:
+Run the full test suite including all storage backends (redis, consul, vault, etcd)
+and e2e tests against a [Pebble](https://github.com/letsencrypt/pebble) ACME server:
+
+```bash
+bash t/fixtures/run-tests.sh
+```
+
+This starts all required services via Docker Compose and runs the tests inside
+a container on the same network, so ACME challenge validation works end-to-end.
+
+### Quick tests with Docker
+
+For a quick run of the unit and storage tests (redis only, no e2e):
 
 ```bash
 docker build -t lua-resty-acme-test -f Dockerfile.test .
-```
-
-Run tests:
-
-```bash
-docker run --rm -v $(pwd):/work lua-resty-acme-test
+docker run --rm -v $(pwd):/work lua-resty-acme-test bash -c \
+    "redis-server --daemonize yes && prove -r t/storage/redis.t t/storage/file.t t/storage/shm.t t/openssl.t"
 ```
 
 ### Manual setup
 
-Setup e2e test environment by running `bash t/fixtures/prepare_env.sh`.
+Setup the test environment by running `bash t/fixtures/prepare_env.sh`.
 
 Then run `cpanm install Test::Nginx::Socket` and then `prove -r t`.
 
