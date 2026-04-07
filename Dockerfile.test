@@ -1,5 +1,5 @@
 FROM openresty/openresty:noble
-RUN apt-get update && apt-get install -y cpanminus redis-server git && \
+RUN apt-get update && apt-get install -y cpanminus redis-server git curl socat && \
     cpanm --notest Test::Nginx && \
     opm get ledgetech/lua-resty-http && \
     opm get fffonion/lua-resty-openssl && \
@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y cpanminus redis-server git && \
         -subj '/CN=localhost' \
         -keyout /tmp/default-ecc.key \
         -out /tmp/default-ecc.pem && \
+    openssl req -x509 -newkey rsa:4096 -keyout /tmp/key.pem -out /tmp/cert.pem \
+        -days 1 -nodes -subj '/CN=some.vault' && \
+    chmod 777 /tmp/key.pem /tmp/cert.pem && \
+    openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /tmp/account.key && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 WORKDIR /work
-CMD ["bash", "-c", "redis-server --daemonize yes && prove -r t/"]
+COPY t/fixtures/entrypoint-test.sh /entrypoint-test.sh
+RUN chmod +x /entrypoint-test.sh
+ENTRYPOINT ["/entrypoint-test.sh"]
