@@ -1,3 +1,4 @@
 t/servroot
 lua-resty-acme-*
+!lua-resty-acme-*.rockspec
 .claude
