@@ -4,7 +4,7 @@ Automatic Let's Encrypt certificate serving (RSA + ECC) and pure Lua implementat
 
 `http-01` and `tls-alpn-01` challenges are supported.
 
-![Build Status](https://github.com/fffonion/lua-resty-acme/workflows/Tests/badge.svg) ![luarocks](https://img.shields.io/luarocks/v/fffonion/lua-resty-acme?color=%232c3e67) ![opm](https://img.shields.io/opm/v/fffonion/lua-resty-acme?color=%23599059)
+![Build Status](https://github.com/ashleykleynhans/lua-resty-acme/workflows/Tests/badge.svg) ![luarocks](https://img.shields.io/luarocks/v/ashleykleynhans/lua-resty-acme?color=%232c3e67) ![opm](https://img.shields.io/opm/v/ashleykleynhans/lua-resty-acme?color=%23599059)
 
 [简体中文](https://yooooo.us/2019/lua-resty-acme)
 
@@ -31,7 +31,7 @@ This library consists of two parts:
 Install using opm:
 
 ```shell
-opm install fffonion/lua-resty-acme
+opm install ashleykleynhans/lua-resty-acme
 ```
 
 Alternatively, to install using luarocks:
@@ -638,7 +638,7 @@ put this as a content_by_* block for `/.well-known` path.
 **syntax**: *client:serve_tls_alpn_challenge()*
 
 Serve [tls-alpn-01](https://letsencrypt.org/docs/challenge-types/) challenge. See
-[this section](https://github.com/fffonion/lua-resty-acme#tls-alpn-01-challenge) on how to use this handler.
+[this section](https://github.com/ashleykleynhans/lua-resty-acme#tls-alpn-01-challenge) on how to use this handler.
 
 [Back to TOC](#table-of-contents)
 
@@ -649,7 +649,7 @@ Storage adapters are used in `autossl` or acme `client` to storage temporary or
 persistent data. Depending on the deployment environment, there're currently
 five storage adapters available to select from. To implement a custom storage
 adapter, please refer to
-[this doc](https://github.com/fffonion/lua-resty-acme/blob/master/lib/resty/acme/storage/README.md).
+[this doc](https://github.com/ashleykleynhans/lua-resty-acme/blob/master/lib/resty/acme/storage/README.md).
 
 ### file
 
