@@ -8,7 +8,7 @@ chmod 777 /tmp/key.pem /tmp/cert.pem
 
 echo "Prepare containers"
 pushd "$SCRIPT_DIR"
-docker compose up -d || (
+docker compose up -d --wait || (
     docker compose logs vault;
     docker compose logs etcd;
     docker compose logs consul;
