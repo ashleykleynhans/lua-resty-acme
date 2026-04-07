@@ -169,7 +169,7 @@ __DATA__
 --- request eval
 "GET /t/e2e-test1-$ENV{'tm'}"
 --- response_body_like eval
-"Pebble Intermediate.+CN\\s*=\\s*e2e-test1.+rsaEncryption"
+"Pebble Intermediate.+DNS:e2e-test1.+rsaEncryption"
 --- no_error_log
 [warn]
 [error]
@@ -230,7 +230,7 @@ __DATA__
 --- request eval
 "GET /t/e2e-test2-$ENV{'tm'}"
 --- response_body_like eval
-"Pebble Intermediate.+CN\\s*=\\s*e2e-test2.+rsaEncryption.+Pebble Intermediate.+CN\\s*=\\s*e2e-test2.+id-ecPublicKey
+"Pebble Intermediate.+DNS:e2e-test2.+rsaEncryption.+Pebble Intermediate.+DNS:e2e-test2.+id-ecPublicKey
 "
 --- no_error_log
 [warn]
@@ -278,7 +278,7 @@ set ecc key
 --- request eval
 "GET /t/e2e-test3-$ENV{'tm'}"
 --- response_body_like eval
-"Pebble Intermediate.+CN\\s*=\\s*e2e-test3.+rsaEncryption"
+"Pebble Intermediate.+DNS:e2e-test3.+rsaEncryption"
 --- no_error_log
 [warn]@we allow warn here since we are using plain FFI mode for resty.openssl.ssl
 [error]
@@ -324,7 +324,7 @@ set ecc key
 --- request eval
 "GET /t/e2e-test1-$ENV{'tm'}"
 --- response_body_like eval
-"Pebble Intermediate.+CN\\s*=\\s*e2e-test1.+rsaEncryption"
+"Pebble Intermediate.+DNS:e2e-test1.+rsaEncryption"
 --- no_error_log
 [warn]
 [error]
