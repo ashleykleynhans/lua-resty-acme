@@ -159,11 +159,11 @@ __DATA__
                     f:write(data)
                     f:close()
                     ngx.say(data)
-                    break
+                    return
                 end
                 ngx.sleep(2)
             end
-            ngx.say(out or "timeout")
+            ngx.say("timeout")
         }
     }
 --- request eval
@@ -219,12 +219,12 @@ __DATA__
                         f:close()
                         ngx.say(data)
                         ngx.say(data2)
-                        break
+                        return
                     end
                 end
                 ngx.sleep(2)
             end
-            ngx.say(out or "timeout")
+            ngx.say("timeout")
         }
     }
 --- request eval
@@ -268,11 +268,11 @@ set ecc key
                     f:write(data)
                     f:close()
                     ngx.say(data)
-                    break
+                    return
                 end
                 ngx.sleep(2)
             end
-            ngx.say(out or "timeout")
+            ngx.say("timeout")
         }
     }
 --- request eval
@@ -317,8 +317,9 @@ set ecc key
                 f:write(data)
                 f:close()
                 ngx.say(data)
+                return
             end
-            ngx.say(data or "error")
+            ngx.say("error")
         }
     }
 --- request eval
