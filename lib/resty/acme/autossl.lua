@@ -644,7 +644,7 @@ function AUTOSSL.ssl_certificate()
     get_cert_inline(i, typ)
   end
 
-  if domain_key_types_count ~= chains_set then
+  if domain_key_types_count ~= chains_set_count then
     local update_cert_loop = function()
       for i, typ in ipairs(domain_key_types) do
         if not chains_set[i] then
@@ -661,6 +661,22 @@ function AUTOSSL.ssl_certificate()
             -- in blocking mode we can try to use the cert right away
             certs_cache[typ]:delete(domain)
             get_cert_inline(i, typ)
+
+            -- If cert still not set (e.g. another request holds the lock),
+            -- poll until the cert becomes available in storage
+            if not chains_set[i] then
+              local max_wait = 30
+              local waited = 0
+              while waited < max_wait do
+                ngx.sleep(1)
+                waited = waited + 1
+                certs_cache[typ]:delete(domain)
+                get_cert_inline(i, typ)
+                if chains_set[i] then
+                  break
+                end
+              end
+            end
           end
         end
       end
