@@ -1,12 +1,17 @@
-<a name="unreleased"></a>
-## [Unreleased]
-
+<a name="0.17.0"></a>
+## [0.17.0] - 2026-04-07
 ### bug fixes
-- **client:** fix detection of processing state
+- **autossl:** fix blocking mode race condition and comparison bug [5a0e1d5](https://github.com/ashleykleynhans/lua-resty-acme/commit/5a0e1d5)
+- **client:** fix detection of processing state [4e65fac](https://github.com/ashleykleynhans/lua-resty-acme/commit/4e65fac)
 
 ### features
-- **storage/redis:** use atomic set ([#105](https://github.com/ashleykleynhans/lua-resty-acme/issues/105))
+- **storage/redis:** use atomic set ([#105](https://github.com/ashleykleynhans/lua-resty-acme/issues/105)) [177275a](https://github.com/ashleykleynhans/lua-resty-acme/commit/177275a)
+- **ci:** add release workflow for .deb and .rpm packages [350773b](https://github.com/ashleykleynhans/lua-resty-acme/commit/350773b)
+- **tests:** add docker compose test runner for local testing [9bf6995](https://github.com/ashleykleynhans/lua-resty-acme/commit/9bf6995)
 
+
+<a name="0.16.0"></a>
+## [0.16.0] - 2026-02-15
 
 <a name="0.15.0"></a>
 ## [0.15.0] - 2024-08-14
@@ -329,40 +334,41 @@
 - **crypto:** ffi openssl supports generating ec certificates [bc9d989](https://github.com/ashleykleynhans/lua-resty-acme/commit/bc9d989b4eb8bfa954f2f1ab08b0449957a27402)
 
 
-[Unreleased]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.15.0...HEAD
-[0.15.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.14.0...0.15.0
-[0.14.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.13.0...0.14.0
-[0.13.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.12.0...0.13.0
-[0.12.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.11.0...0.12.0
-[0.11.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.10.1...0.11.0
-[0.10.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.10.0...0.10.1
-[0.10.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.9.0...0.10.0
-[0.9.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.8.2...0.9.0
-[0.8.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.8.1...0.8.2
-[0.8.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.8.0...0.8.1
-[0.8.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.7.2...0.8.0
-[0.7.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.7.1...0.7.2
-[0.7.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.7.0...0.7.1
-[0.7.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.6.2...0.7.0
-[0.6.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.6.1...0.6.2
-[0.6.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.6.0...0.6.1
-[0.6.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.11...0.6.0
-[0.5.11]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.10...0.5.11
-[0.5.10]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.9...0.5.10
-[0.5.9]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.8...0.5.9
-[0.5.8]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.7...0.5.8
-[0.5.7]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.6...0.5.7
-[0.5.6]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.5...0.5.6
-[0.5.5]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.4...0.5.5
-[0.5.4]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.3...0.5.4
-[0.5.3]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.2...0.5.3
-[0.5.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.1...0.5.2
-[0.5.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.5.0...0.5.1
-[0.5.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.4.2...0.5.0
-[0.4.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.4.1...0.4.2
-[0.4.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.4.0...0.4.1
-[0.4.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.3.0...0.4.0
-[0.3.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.1.3...0.3.0
-[0.1.3]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.1.2...0.1.3
-[0.1.2]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.1.1...0.1.2
-[0.1.1]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.1.0...0.1.1
+[0.17.0]: https://github.com/ashleykleynhans/lua-resty-acme/compare/0.16.0...v0.17.0
+[0.16.0]: https://github.com/fffonion/lua-resty-acme/compare/0.15.0...0.16.0
+[0.15.0]: https://github.com/fffonion/lua-resty-acme/compare/0.14.0...0.15.0
+[0.14.0]: https://github.com/fffonion/lua-resty-acme/compare/0.13.0...0.14.0
+[0.13.0]: https://github.com/fffonion/lua-resty-acme/compare/0.12.0...0.13.0
+[0.12.0]: https://github.com/fffonion/lua-resty-acme/compare/0.11.0...0.12.0
+[0.11.0]: https://github.com/fffonion/lua-resty-acme/compare/0.10.1...0.11.0
+[0.10.1]: https://github.com/fffonion/lua-resty-acme/compare/0.10.0...0.10.1
+[0.10.0]: https://github.com/fffonion/lua-resty-acme/compare/0.9.0...0.10.0
+[0.9.0]: https://github.com/fffonion/lua-resty-acme/compare/0.8.2...0.9.0
+[0.8.2]: https://github.com/fffonion/lua-resty-acme/compare/0.8.1...0.8.2
+[0.8.1]: https://github.com/fffonion/lua-resty-acme/compare/0.8.0...0.8.1
+[0.8.0]: https://github.com/fffonion/lua-resty-acme/compare/0.7.2...0.8.0
+[0.7.2]: https://github.com/fffonion/lua-resty-acme/compare/0.7.1...0.7.2
+[0.7.1]: https://github.com/fffonion/lua-resty-acme/compare/0.7.0...0.7.1
+[0.7.0]: https://github.com/fffonion/lua-resty-acme/compare/0.6.2...0.7.0
+[0.6.2]: https://github.com/fffonion/lua-resty-acme/compare/0.6.1...0.6.2
+[0.6.1]: https://github.com/fffonion/lua-resty-acme/compare/0.6.0...0.6.1
+[0.6.0]: https://github.com/fffonion/lua-resty-acme/compare/0.5.11...0.6.0
+[0.5.11]: https://github.com/fffonion/lua-resty-acme/compare/0.5.10...0.5.11
+[0.5.10]: https://github.com/fffonion/lua-resty-acme/compare/0.5.9...0.5.10
+[0.5.9]: https://github.com/fffonion/lua-resty-acme/compare/0.5.8...0.5.9
+[0.5.8]: https://github.com/fffonion/lua-resty-acme/compare/0.5.7...0.5.8
+[0.5.7]: https://github.com/fffonion/lua-resty-acme/compare/0.5.6...0.5.7
+[0.5.6]: https://github.com/fffonion/lua-resty-acme/compare/0.5.5...0.5.6
+[0.5.5]: https://github.com/fffonion/lua-resty-acme/compare/0.5.4...0.5.5
+[0.5.4]: https://github.com/fffonion/lua-resty-acme/compare/0.5.3...0.5.4
+[0.5.3]: https://github.com/fffonion/lua-resty-acme/compare/0.5.2...0.5.3
+[0.5.2]: https://github.com/fffonion/lua-resty-acme/compare/0.5.1...0.5.2
+[0.5.1]: https://github.com/fffonion/lua-resty-acme/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/fffonion/lua-resty-acme/compare/0.4.2...0.5.0
+[0.4.2]: https://github.com/fffonion/lua-resty-acme/compare/0.4.1...0.4.2
+[0.4.1]: https://github.com/fffonion/lua-resty-acme/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/fffonion/lua-resty-acme/compare/0.3.0...0.4.0
+[0.3.0]: https://github.com/fffonion/lua-resty-acme/compare/0.1.3...0.3.0
+[0.1.3]: https://github.com/fffonion/lua-resty-acme/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/fffonion/lua-resty-acme/compare/0.1.1...0.1.2
+[0.1.1]: https://github.com/fffonion/lua-resty-acme/compare/0.1.0...0.1.1
