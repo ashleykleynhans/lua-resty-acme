@@ -1,0 +1,6 @@
+FROM openresty/openresty:noble
+RUN apt-get update && apt-get install -y cpanminus redis-server git && \
+    cpanm --notest Test::Nginx && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+WORKDIR /work
+CMD ["bash", "-c", "redis-server --daemonize yes && prove -r t/"]

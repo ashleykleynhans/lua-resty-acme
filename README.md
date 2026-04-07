@@ -820,6 +820,23 @@ TODO
 
 Testing
 ====
+
+### Using Docker (recommended)
+
+Build the test image once:
+
+```bash
+docker build -t lua-resty-acme-test -f Dockerfile.test .
+```
+
+Run tests:
+
+```bash
+docker run --rm -v $(pwd):/work lua-resty-acme-test
+```
+
+### Manual setup
+
 Setup e2e test environment by running `bash t/fixtures/prepare_env.sh`.
 
 Then run `cpanm install Test::Nginx::Socket` and then `prove -r t`.
