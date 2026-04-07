@@ -230,8 +230,7 @@ __DATA__
 --- request eval
 "GET /t/e2e-test2-$ENV{'tm'}"
 --- response_body_like eval
-"Pebble Intermediate.+rsaEncryption.+DNS:e2e-test2.+Pebble Intermediate.+id-ecPublicKey.+DNS:e2e-test2
-"
+"Pebble Intermediate.+rsaEncryption.+DNS:e2e-test2.+Pebble Intermediate.+id-ecPublicKey.+DNS:e2e-test2"
 --- no_error_log
 [warn]
 [error]
