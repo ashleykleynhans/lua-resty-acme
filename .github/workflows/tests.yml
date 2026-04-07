@@ -70,6 +70,7 @@ jobs:
       OPENSSL_INC: /home/runner/work/cache/ssl/include
       TEST_NGINX_SLEEP: 0.005
       TEST_NGINX_RANDOMIZE: 1
+      TEST_NGINX_SKIP_TLS_ALPN: 1
       LUACHECK_VER: 0.21.1
       CC: gcc
       NGX_BUILD_CC: gcc

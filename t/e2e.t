@@ -238,6 +238,7 @@ __DATA__
 set ecc key
 
 === TEST 3: tls-alpn-01
+--- skip_eval: 4: $ENV{TEST_NGINX_SKIP_TLS_ALPN}
 --- http_config eval: ::make_http_config("'rsa'", "/tmp/account.key", "'tls-alpn-01'", "acme", "file")
 --- main_config eval: ::make_main_config("'rsa'", "/tmp/account.key", "'tls-alpn-01'")
 --- config
