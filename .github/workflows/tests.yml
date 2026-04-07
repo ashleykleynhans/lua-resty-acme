@@ -3,16 +3,20 @@ name: Tests
 on:
   push:
     paths-ignore:
-    # ignore top-level markdown files (CHANGELOG.md, README.md, etc.)
     - '*.md'
+    - 'LICENSE'
+    - '.chglog/**'
+    - 'docs/**'
     branches:
     - master
     - release/*
     - test-please/*
   pull_request:
     paths-ignore:
-    # ignore top-level markdown files (CHANGELOG.md, README.md, etc.)
     - '*.md'
+    - 'LICENSE'
+    - '.chglog/**'
+    - 'docs/**'
   schedule:
   - cron:  '0 7 * * *'
 
