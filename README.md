@@ -4,7 +4,7 @@ Automatic Let's Encrypt certificate serving (RSA + ECC) and pure Lua implementat
 
 `http-01` and `tls-alpn-01` challenges are supported.
 
-![Build Status](https://github.com/ashleykleynhans/lua-resty-acme/workflows/Tests/badge.svg) ![luarocks](https://img.shields.io/luarocks/v/ashleykleynhans/lua-resty-acme?color=%232c3e67) ![opm](https://img.shields.io/opm/v/ashleykleynhans/lua-resty-acme?color=%23599059)
+![Build Status](https://github.com/ashleykleynhans/lua-resty-acme/workflows/Tests/badge.svg) ![luarocks](https://img.shields.io/luarocks/v/ashleykleynhans/lua-resty-acme?color=%232c3e67)
 
 [简体中文](https://yooooo.us/2019/lua-resty-acme)
 
@@ -28,22 +28,28 @@ This library consists of two parts:
 - `resty.acme.autossl`: automatic lifecycle management of Let's Encrypt certificates
 - `resty.acme.client`: Lua implementation of ACME v2 protocol
 
-Install using opm:
-
-```shell
-opm install ashleykleynhans/lua-resty-acme
-```
-
-Alternatively, to install using luarocks:
+Install using luarocks:
 
 ```shell
 luarocks install lua-resty-acme
-# manually install a luafilesystem
-luarocks install luafilesystem
 ```
 
-Note you will need to manually install `luafilesystem` when using LuaRocks. This is made to maintain
-backward compatibility.
+Alternatively, architecture-independent `.deb` and `.rpm` packages are
+published with each release on the
+[GitHub Releases](https://github.com/ashleykleynhans/lua-resty-acme/releases)
+page:
+
+```shell
+# Debian/Ubuntu
+sudo dpkg -i lua-resty-acme_<version>_all.deb
+
+# RHEL/Rocky/Alma/Fedora
+sudo rpm -i lua-resty-acme-<version>-1.noarch.rpm
+```
+
+If you use the `file` storage backend and need its `list()` method, also
+install `luafilesystem` (`luarocks install luafilesystem`); it is otherwise
+optional.
 
 This library uses [an FFI-based openssl backend](https://github.com/fffonion/lua-resty-openssl),
 which currently supports OpenSSL `1.1.1`, `1.1.0` and `1.0.2` series.
@@ -783,7 +789,7 @@ storage_config = {
 ```
 
 Etcd storage requires [lua-resty-etcd](https://github.com/api7/lua-resty-etcd) library to installed.
-It can be manually installed with `opm install api7/lua-resty-etcd` or `luarocks install lua-resty-etcd`.
+It can be manually installed with `luarocks install lua-resty-etcd`.
 
 
 ## DNS providers

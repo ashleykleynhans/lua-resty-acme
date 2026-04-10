@@ -10,13 +10,8 @@ permissions:
 
 jobs:
   package-deb:
-    name: Package .deb (${{ matrix.arch }})
+    name: Package .deb
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - arch: amd64
-          - arch: arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +19,7 @@ jobs:
       - name: Build .deb package
         run: |
           VERSION=${GITHUB_REF_NAME#v}
-          PKG_DIR="lua-resty-acme_${VERSION}_${{ matrix.arch }}"
+          PKG_DIR="lua-resty-acme_${VERSION}_all"
           LUA_LIB="${PKG_DIR}/usr/local/openresty/site/lualib"
 
           mkdir -p "${PKG_DIR}/DEBIAN"
@@ -39,7 +34,7 @@ jobs:
           Version: ${VERSION}
           Section: libs
           Priority: optional
-          Architecture: ${{ matrix.arch }}
+          Architecture: all
           Depends: openresty
           Maintainer: Ashley Kleynhans
           Homepage: https://github.com/ashleykleynhans/lua-resty-acme
@@ -58,17 +53,12 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lua-resty-acme-deb-${{ matrix.arch }}
+          name: lua-resty-acme-deb
           path: ${{ env.DEB_FILE }}
 
   package-rpm:
-    name: Package .rpm (${{ matrix.rpm_arch }})
+    name: Package .rpm
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - rpm_arch: x86_64
-          - rpm_arch: aarch64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -119,7 +109,6 @@ jobs:
 
           rpmbuild --define "_topdir ${WORKSPACE}/rpmbuild" \
             --define "_version ${VERSION}" \
-            --target ${{ matrix.rpm_arch }} \
             -bb rpmbuild/SPECS/lua-resty-acme.spec
 
           RPM_FILE=$(find rpmbuild/RPMS -name "*.rpm" | head -1)
@@ -130,7 +119,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lua-resty-acme-rpm-${{ matrix.rpm_arch }}
+          name: lua-resty-acme-rpm
           path: ${{ env.RPM_FILE }}
 
   release:
